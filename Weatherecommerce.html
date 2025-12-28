@@ -1,0 +1,1889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>The Shopping Site</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Playfair:ital,opsz,wght@0,5..1200,300..900;1,5..1200,300..900&family=Quicksand:wght@300..700&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+        html {
+            scroll-behavior: smooth;
+        }
+        :root {
+            --clr-Background: rgb(246, 239, 239);
+            --clr-Primary: rgb(255, 182, 193);
+            --clr-Primary1: rgb(214, 150, 159);
+            --clr-Secondary: rgb(221, 160, 221);
+            --clr-Text: rgb(51, 51, 51);
+            --clr-Textwhite: white;
+            --clr-Hover: rgb(255, 105, 180);
+            --font-Raleway: "Raleway", sans-serif;
+            --font-Quicksand: "Quicksand", sans-serif;
+            --font-Playfair: "Playfair", serif;
+            --font-Lora: "Lora", serif;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: var(--font-Raleway);
+            font-weight: 500;
+            color: var(--clr-Text);
+        }
+        .hidden {
+            display: none;
+        }
+        .header {
+            background-color: var(--clr-Primary1);
+            padding: 15px 60px;
+            min-height: 80px;
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .brand {
+            display: block;
+            text-decoration: none;
+        }
+        .brandname {
+            cursor: pointer;
+            color: var(--clr-Textwhite);
+            font-weight: 500;
+            font-size: 2.5rem;
+        }
+
+
+        .search {
+            padding: 0 10px;
+            position: relative;
+            align-self: center;
+        }
+        #searchinput {
+            width: 160px;
+            padding: 8px 10px 8px 35px;
+            outline: none;
+            border-radius: 15px;
+            border: 1px solid var(--clr-Text);
+            transition: 0.35s;
+            font-size: 1rem;
+        }
+            #searchinput:focus {
+                width: 250px;
+            }
+            .searchicon {
+                position: absolute;
+                left: 20px;
+                top: 7px;
+                cursor: pointer;
+            }
+        .settings {
+            align-self: center;
+            display: flex;
+            flex-flow: row wrap;
+            
+        }
+        .carticon {
+            padding: 0 10px;
+            display: inline-block;
+            align-self: center;
+            position: relative;
+            text-decoration: none;
+        }
+        .accounticon {
+            padding: 0px 0px 0px 10px;
+            display: inline-block;
+            align-self: center;
+        }
+        .carticon {
+            
+        }
+        .cart {
+            min-height: 80vh;
+        }
+        .carttotal {
+            display: inline-block;
+            position: absolute;
+            right: 5px;
+            top: -14px;
+            color: var(--clr-Textwhite);
+            font-size: 1.25rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+            .carticon svg, .accounticon svg {
+                fill: var(--clr-Textwhite);
+                width: 30px;
+                height: 30px;
+                transition: 0.35s;
+            }
+            .carticon:hover svg, .accounticon:hover svg {
+                fill: var(--clr-Background);
+                cursor: pointer;
+            }
+        @media screen and (max-width: 650px) {
+            .header {
+                padding: 15px 30px;
+            }
+            .settings {
+                width: 100%;
+                margin-top: 10px;
+                justify-content: space-between;
+            }
+            .brandname {
+                font-size: 2rem;
+            }
+            .carticon svg, .accounticon svg {
+                padding: 0;
+            }
+            #searchinput {
+                width: 160px;
+            }
+            .searchicon {
+                left: 10px;
+            }
+            /*.searchicon svg {
+                width: 20px;
+            }*/
+            #searchinput:focus {
+                width: 200px;
+            }
+            .search, .carticon, .accounticon {
+                padding: 0 0px;
+            }
+            .carttotal {
+                top: -13px;
+                right: -5px;
+            }
+        }
+
+/*        homepage starts*/
+
+        main {
+        }
+        .main {
+            background-color: var(--clr-Background);
+        }
+        .homelist {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            padding: 40px 60px;
+            transition: 0.35s;
+        }
+        
+        .product {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: white;
+            overflow: hidden;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.35s;
+            box-shadow: 5px 5px 10px rgb(232, 223, 224);
+            opacity: 95%;
+            text-decoration: none;
+            display: block;
+        }
+        .imagecontainer img {
+            width: 100%;
+            transition: 0.35s;
+            object-fit: cover;
+        }
+            .product:hover {
+                transform: scale(1.01);
+                box-shadow: 5px 5px 10px rgb(184, 164, 167);
+                opacity: 100%;
+            }
+            .product:hover .imagecontainer img {
+                transform: scaleX(1.03);
+            }
+            .container {
+                /*            height: 100%;*/
+            }
+        .detailscontainer {
+            padding: 10px 15px 20px 20px;
+/*            display: flex;
+            flex-flow: column nowrap;
+            justify-content: space-between;*/
+        }
+        .productname {
+            height: 25px;
+            overflow: hidden;
+            font-weight: 600;
+        }
+        .span {
+            margin-bottom: 10px;
+        }
+        .span span:nth-child(1) {
+            background-color: var(--clr-Text);
+            color: var(--clr-Textwhite);
+            border-radius: 15px;
+            padding: 3px 10px;
+            margin-right: 10px;
+        }
+        .productprice {
+            margin-top: 3px;
+            color: red;
+            font-weight: 600;
+        }
+        @media screen and (max-width: 650px) {
+            .homelist {
+                padding: 20px 30px;
+            }
+        }
+
+        /*        individual products design start*/
+        .div2 {
+            display: flex;
+            flex-flow: row wrap;
+            padding: 50px 60px;
+            gap: 60px;
+            width: 100%;
+        }
+
+        .irightdetails {
+        }
+        .itype {
+            background-color: var(--clr-Text);
+            display: inline-block;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 15px;
+            cursor: default;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            transition: 0.35s;
+            box-shadow: 1px 1px 5px rgb(110, 78, 94);
+        }
+        .iname {
+            margin: 10px 0px;
+            font-weight: 600;
+            max-width: 450px;
+        }
+        .iproductdetails {
+            font-size: 1.1rem;
+            display: inline-block;
+            padding: 3px 0px 3px 10px;
+            background-color: white;
+            border-radius: 15px;
+            margin-bottom: 10px;
+        }
+            .iproductdetails span:nth-child(1) {
+                margin-right: 5px;
+            }
+            .iproductdetails span:nth-child(2) {
+                background-color: var(--clr-Text);
+                color: white;
+                padding: 3px 10px;
+                border-radius: 15px;
+            }
+        .igender {
+            color: rgb(92, 74, 111);
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+        .iprice {
+            color: red;
+            margin-bottom: 10px;
+            font-weight: 600;
+            font-size: 1.3rem;
+        }
+        .iwords {
+            display: inline-block;
+            font-size: 1.1rem;
+        }
+        .isize {
+            display: inline-block;
+            font-size: 1.1rem;
+            border-radius: 5px;
+/*            text-align: center;*/
+            padding: 1px 1px 1px 4px;
+            background-color: white;
+            outline: none;
+            border: 1px solid var(--clr-Primary1);
+        }
+        #ibutton {
+            display: block;
+            margin-top: 35px;
+            width: 45%;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 1.25rem;
+            font-weight: 600;
+            background-color: var(--clr-Primary1);
+            color: var(--clr-Textwhite);
+            cursor: pointer;
+            box-shadow: 2px 2px 3px var(--clr-Text);
+/*            outline: none;*/
+            border: 1px solid var(--clr-Text);
+            transition: 0.35s;
+        }
+            #ibutton:hover {
+                transform: scale(1.05);
+                box-shadow: 4px 4px 8px var(--clr-Text);
+                background-image: linear-gradient(to right, rgb(92, 74, 111), var(--clr-Text));
+            }
+        .idetails {
+            margin: 50px 0px;
+            line-height: 25px;
+            background-color: white;
+            padding: 5px 10px 5px 3px;
+            border-radius: 15px;
+            display: inline-block;
+            box-shadow: 3px 3px 5px rgb(110, 78, 94);
+            transition: 0.35s;
+            max-width: 450px;
+            text-align: justify;
+            cursor: pointer;
+        }
+            .idetails:hover {
+                transform: scale(1.015);
+                box-shadow: 5px 5px 8px rgb(110, 78, 94);
+            }
+            .idetails p {
+                
+            }
+        .idelivery {
+            margin-top: 20px;
+        }
+
+            .idelivery span {
+                display: inline-block;
+                background-color: white;
+                border-radius: 10px;
+                padding: 10px;
+                font-size: 0.75rem;
+                margin-right: 5px;
+                cursor: pointer;
+                box-shadow: 3px 3px 5px rgb(110, 78, 94);
+                transition: 0.35s;
+            }
+
+                .idelivery span:hover {
+                    transform: scale(1.05);
+                    box-shadow: 5px 5px 8px rgb(110, 78, 94);
+                }
+
+            .idelivery svg {
+                width: 100%;
+                margin: 0 auto;
+            }
+        .ileftimage {
+            display: flex;
+            flex-flow: row wrap;
+            gap: 15px;
+        }
+
+        
+        
+        .iimagecontainer {
+            border-radius: 15px;
+            overflow: hidden;
+            transition: 0.5s;
+            max-width: 570px;
+            width: 35vw;
+            min-width: 320px;
+        }
+            .iimagecontainer:hover img {
+                transform: scale(1.03);
+            }
+            .iimagecontainer img {
+                display: inline-block;
+                width: 100%;
+                object-fit: cover;
+                transition: 0.5s;
+            }
+        
+        .ismallimagecontainer {
+            display: flex;
+            flex-flow: column wrap;
+            gap: 10px;
+        }
+            .ismallimagecontainer img {
+                max-width: 100px;
+                border-radius: 15px;
+                cursor: pointer;
+                transition: 0.35s;
+                box-shadow: 3px 3px 5px rgb(110, 78, 94);
+            }
+                .ismallimagecontainer img:hover {
+                    transform: scale(1.05);
+                    box-shadow: 5px 5px 8px rgb(110, 78, 94);
+                }
+        @media screen and (max-width: 1200px) {
+            .div2 {
+                gap: 20px;
+                justify-content: space-evenly;
+            }
+            .homelist {
+                grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            }
+            .irightdetails {
+                max-width: 380px;
+            }
+            .iname {
+                max-width: 350px
+            }
+            .iproductdetails {
+                font-size: 1rem;
+                display: inline-block;
+                padding: 0px 0px 0px 0px;
+                background-color: transparent;
+            }
+
+                .iproductdetails span:nth-child(1) {
+                    display: block;
+                    padding: 3px 10px 3px 10px;
+                    background-color: white;
+                    margin-right: 5px;
+                    border-radius: 15px;
+                    margin-bottom: 10px;
+                }
+
+                .iproductdetails span:nth-child(2) {
+                    background-color: var(--clr-Text);
+                    color: white;
+                    padding: 3px 10px;
+                    border-radius: 15px;
+                }
+            .igender {
+                margin-top: 10px;
+            }
+            #ibutton {
+                margin-top: 10px;
+                min-width: 250px;
+            }
+            .idetails {
+                max-width: 350px;
+                margin: 20px 0px 0px 0px;
+            }
+        }
+        @media screen and (max-width: 960px) {
+            .div2 {
+                gap: 20px;
+                justify-content: space-evenly;
+            }
+            .homelist {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+            .ileftimage {
+                display: flex;
+                flex-flow: column-reverse wrap;
+                gap: 10px;
+                justify-content: flex-end;
+            }
+            .ismallimagecontainer {
+                display: flex;
+                flex-flow: row wrap;
+                gap: 10px;
+            }
+            .iimagecontainer {
+                min-width: 290px;
+            }
+            .ismallimagecontainer {
+                
+            }
+                .ismallimagecontainer img {
+                    max-width: 90px;
+                }
+            .irightdetails {
+                max-width: 220px;
+            }
+
+            .iname {
+                max-width: 220px;
+            }
+
+            .iproductdetails {
+                width: 200px;
+                font-size: 1rem;
+                display: inline-block;
+                padding: 0px 0px 0px 0px;
+                background-color: transparent;
+            }
+
+                .iproductdetails span:nth-child(1) {
+                    display: block;
+                    padding: 3px 10px 3px 10px;
+                    background-color: white;
+                    margin-right: 5px;
+                    border-radius: 15px;
+                    margin-bottom: 10px;
+                }
+
+                .iproductdetails span:nth-child(2) {
+                    background-color: var(--clr-Text);
+                    color: white;
+                    padding: 3px 10px;
+                    border-radius: 15px;
+                }
+
+            .igender {
+                margin-top: 10px;
+            }
+
+            #ibutton {
+                margin-top: 10px;
+                min-width: 200px;
+            }
+            .idelivery {
+                max-width: 250px;
+                margin-top: 10px;
+            }
+            .idelivery span {
+                margin-top: 10px;
+                width: 100px;
+                height: 80px;
+                vertical-align: middle;
+                text-align: center;
+
+
+            }
+            .idetails {
+                line-height: 20px;
+                max-width: 200px;
+                margin: 20px 0px 0px 0px;
+            }
+        }
+        @media screen and (max-width: 650px) {
+            .div2 {
+                gap: 20px;
+                padding: 30px;
+                justify-content: start;
+            }
+            .homelist {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+            .productname {
+                height: auto;
+            }
+            .ileftimage {
+                display: flex;
+                flex-flow: column-reverse wrap;
+                gap: 10px;
+                justify-content: flex-end;
+                width: 100%;
+            }
+
+            .ismallimagecontainer {
+                display: flex;
+                flex-flow: row wrap;
+                gap: 10px;
+            }
+
+            .iimagecontainer {
+                min-width: 100%;
+            }
+
+            .ismallimagecontainer {
+            }
+
+                .ismallimagecontainer img {
+                    max-width: 90px;
+                }
+
+            .irightdetails {
+                max-width: 100%;
+            }
+
+            .iname {
+                max-width: 100%;
+                font-size: 1.5rem;
+            }
+            
+            .iproductdetails {
+                width: 200px;
+                font-size: 1rem;
+                display: inline-block;
+                padding: 0px 0px 0px 0px;
+                background-color: transparent;
+            }
+
+                .iproductdetails span:nth-child(1) {
+                    display: block;
+                    padding: 3px 10px 3px 10px;
+                    background-color: white;
+                    margin-right: 5px;
+                    border-radius: 15px;
+                    margin-bottom: 10px;
+                }
+
+                .iproductdetails span:nth-child(2) {
+                    background-color: var(--clr-Text);
+                    color: white;
+                    padding: 3px 10px;
+                    border-radius: 15px;
+                }
+
+            .igender {
+                margin-top: 10px;
+            }
+
+            #ibutton {
+                margin-top: 10px;
+                max-width: 320px;
+                width: 100%;
+            }
+
+            .idelivery {
+                max-width: 100%;
+                margin-top: 10px;
+            }
+
+                .idelivery span {
+                    margin-top: 10px;
+                    width: 100px;
+                    height: 80px;
+                    vertical-align: middle;
+                    text-align: center;
+                }
+
+            .idetails {
+                line-height: 20px;
+                max-width: 100%;
+                margin: 20px 0px 0px 0px;
+            }
+        }
+
+/*        cart starting*/
+        .cartitems {
+            display: flex;
+            flex-flow: column wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            padding: 40px 60px 10px 60px;
+            list-style-type: none;
+        }
+        .cartpricetotal {
+            text-align: center;
+            padding-bottom: 30px;
+        }
+            .cartpricetotal div {
+                padding: 5px 15px;
+                background-color: orangered;
+                border-radius: 15px;
+                margin: 10px;
+                display: inline-block;
+                color: var(--clr-Textwhite);
+                text-decoration: none;
+                font-weight: 800;
+                transition: 0.35s;
+                cursor: pointer;
+            }
+                .cartpricetotal div:hover {
+                    background-color: #ec4000;
+                }
+         .div3 {
+             background-color: white;
+             max-width: 700px;
+             display: grid;
+             grid-template-rows: 150px;
+             grid-template-columns: 0.5fr 1.5fr 3fr 0.5fr 0.5fr 1fr 1fr;
+             justify-items: center;
+             align-items: center;
+             border-radius: 25px;
+             box-shadow: 3px 3px 5px var(--clr-Primary1);
+             transition: 0.35s;
+             overflow: hidden;
+         }
+            .div3:hover {
+                transform: scale(1.03);
+                box-shadow: 5px 5px 8px var(--clr-Primary1);
+            }
+        .emptycart {
+            font-weight: 600;
+        }
+        .cimage {
+            max-width: 150px;
+            overflow: hidden;
+            height: 100%;
+        }
+        .cimage img {
+            display: inline-block;
+            width: 100%;
+            height: 100%;
+        }
+        .cinput {
+            display: inline-block;
+            padding: 5px 2px;
+            border-radius: 10px;
+            outline: none;
+            border: 1px solid var(--clr-Primary1);
+            text-align: center;
+        }
+        .cfullprice {
+            font-weight: 600;
+        }
+            .cfullprice::before {
+                content: "Rs. "
+            }
+        .removebtn {
+            height: 100%;
+            width: 105%;
+            overflow: hidden;
+        }
+        .cbutton {
+            display: inline-block;
+            width: 105%;
+            height: 100%;
+            background-color: orangered;
+            color: white;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.5s;
+            font-weight: 600;
+        }
+
+        .cbutton:hover {
+            background-color: #ec4000;
+            font-weight: 700;
+        }
+        @media screen and (max-width: 650px) {
+            .cartitems {
+                display: flex;
+                flex-flow: row wrap;
+                justify-content: center;
+                align-items: center;
+                gap: 15px;
+                padding: 40px 30px;
+            }
+            .div3 {
+                background-color: white;
+                max-width: 700px;
+                display: grid;
+                grid-template-rows: 60px 60px;
+                grid-template-columns: 0.2fr 1fr 1fr 0.25fr 0.75fr;
+                grid-template-areas:
+                    "index image name size remove"
+                    "index image name quantity price";
+                justify-items: center;
+                align-items: center;
+                border-radius: 25px;
+                box-shadow: 3px 3px 5px var(--clr-Primary1);
+                transition: 0.35s;
+                overflow: hidden;
+            }
+            .cindex {
+                grid-area: index;
+            }
+            .cimage {
+                grid-area: image;
+            }
+            .cname {
+                grid-area: name;
+            }
+            .csize {
+                grid-area: size;
+            }
+            .cquantity {
+                grid-area: quantity;
+            }
+            .cprice {
+                grid-area: price;
+            }
+            .cfullprice::before {
+                content: "Rs. "
+            }
+            .removebtn {
+                grid-area: remove;
+                border-radius: 25px;
+            }
+
+        }
+        @media screen and (max-width: 420px) {
+            .cartitems {
+                display: flex;
+                flex-flow: row wrap;
+                justify-content: center;
+                align-items: center;
+                gap: 15px;
+                padding: 40px 30px;
+            }
+
+            .div3 {
+                background-color: white;
+                max-width: 700px;
+                display: grid;
+                grid-template-rows: 50px 10px 60px 50px;
+                grid-template-columns: 2fr 0.5fr 1fr 1fr;
+                grid-template-areas:
+                    "image name name name"
+                    "image name name name"
+                    "image size quantity price"
+                    "image remove remove remove";
+                justify-items: center;
+                align-items: center;
+                border-radius: 25px;
+                box-shadow: 3px 3px 5px var(--clr-Primary1);
+                transition: 0.35s;
+                overflow: hidden;
+            }
+
+            .cindex {
+                grid-area: index;
+                display: none;
+            }
+
+            .cimage {
+                grid-area: image;
+                max-width: 150px;
+                overflow: hidden;
+            }
+
+                .cimage img {
+                    display: inline-block;
+                    width: 100%;
+                    height: auto;
+                }
+            .cname {
+                grid-area: name;
+                padding-right: 10px;
+                padding-top: 10px;
+            }
+
+            .csize {
+                grid-area: size;
+            }
+
+            .cquantity {
+                grid-area: quantity;
+            }
+
+            .cprice {
+                grid-area: price;
+                padding-right: 10px;
+            }
+
+            .cfullprice::before {
+                content: "Rs. "
+            }
+
+            .removebtn {
+                grid-area: remove;
+                border-radius: 25px;
+            }
+            
+        }
+        #gender {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.85%;
+            padding: 60px 10px 10px;
+        }
+            #gender a {
+                max-height: 450px;
+            }
+            #gender img {
+                display: inline-block;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: top;
+            }
+        #allcontainer, #mencontainer, #womencontainer {
+            background-image: linear-gradient(to left, var(--clr-Secondary), var(--clr-Primary), var(--clr-Primary1));
+            width: 100%;
+            height: 97%;
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 3px 3px 10px rgb(141, 118, 121);
+            transition: 0.35s;
+            cursor: pointer;
+        }
+            #allcontainer:hover, #mencontainer:hover, #womencontainer:hover {
+                background-image: linear-gradient(to left, var(--clr-Secondary), var(--clr-Primary), var(--clr-Primary1));
+                box-shadow: 5px 5px 10px rgb(141, 118, 121);
+                transform: scale(1.02);
+            }
+
+            #allcontainer h3, #mencontainer h3, #womencontainer h3 {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                text-align: center;
+                font-weight: 700;
+                font-size: 1.5rem;
+                color: rgb(141, 118, 121);
+                transition: 0.35s;
+            }
+            #allcontainer:hover h3, #mencontainer:hover h3, #womencontainer:hover h3 {
+                font-size: 1.75rem;
+            }
+        #sort {
+            margin: 10px;
+        }
+        .outputwords {
+            margin-top: 5px;
+        }
+        @media screen and (max-width: 650px) {
+            #gender {
+                gap: 2%;
+                padding: 30px 10px 10px;
+            }
+            #allcontainer h3, #mencontainer h3, #womencontainer h3 {
+                font-size: 1rem;
+            }
+
+            #allcontainer:hover h3, #mencontainer:hover h3, #womencontainer:hover h3 {
+                font-size: 1.25rem;
+            }
+        }
+        .footer {
+            min-height: 100px;
+            background-color: rgb(51, 31, 34);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .footerdetails {
+            color: var(--clr-Textwhite);
+            padding: 30px;
+        }
+        .footerdetails span {
+            font-size: 1.5rem;
+            color: var(--clr-Primary);
+        }
+        .weather {
+            min-height: 600px;
+            height: 85vh;
+            background-image: linear-gradient(135deg, rgb(133, 208, 182), rgb(57, 47, 133));
+            display: flex;
+            flex-flow: column nowrap;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        .weathercontainer {
+            padding: 20px;
+            display: flex;
+            flex-flow: column wrap;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(246, 239, 239, 0.3);
+            border-radius: 15px;
+        }
+        .wsearch {
+            display: flex;
+            flex-flow: row nowrap;
+            justify-self: center;
+            align-self: center;
+            gap: 10px;
+            /* justify-content: center;
+            align-items: center; */
+        }
+        .wsearch input {
+            outline: none;
+            padding: 6px 12px;
+            font-size: 1.1rem;
+            border-radius: 25px;
+            border: 0;
+            width: 500px;
+        }
+        @media screen and (max-width: 650px){
+           .wsearch input {
+            width: inherit;
+           } 
+        }
+        .wsearch button {
+            background: white;
+            border: 0;
+            padding: 5px 5px 2px 5px;
+            /* border: 2px solid white;*/
+            border-radius: 25px; 
+            cursor: pointer;
+        }
+        .wsearch button svg {
+            fill: rgb(148, 132, 132);
+            width: 30px;
+            height: 30px;
+            transition: 0.35s;
+        }
+        .wsearch button svg:hover {
+            fill: rgb(87, 80, 101);
+        }
+        .wouput {
+            margin: 20px 0 0 0;
+            display: flex;
+            gap: 5px;
+            flex-flow: column wrap;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+        .wouput>span>svg {
+            width: 60px;
+            height: 60px;
+            fill: white;
+        }
+        .wtemp {
+            font-weight: 800;
+            color: white;
+        }
+        .wcity {
+            font-weight: 800;
+            color: white;
+            margin-bottom: 20px;
+        }
+        .wdetails {
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: space-around;
+            gap: 10px;
+            width: 100%;
+        }
+        .whumidity, .wspeed {
+            display: flex;
+            flex-flow: column wrap;
+            justify-content: center;
+            align-items: center;
+            
+        }
+        .whcontent, .whctext {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: white;
+        }
+        .wscontent, .wsctext {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: white;
+        }
+        .wspeed>span>svg, .whumidity>span>svg {
+            fill: white;
+            width: 40px;
+            height: 40px;
+        }
+        #suggestions {
+            position: absolute;
+            bottom: 60px;
+            width: 275px;
+            text-align: center;
+            text-decoration: none;
+            color: white;
+            font-weight: 800;
+            background-image: linear-gradient(to Left, red, blue);
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: 0.35s;
+            background-size: 150%;
+            background-position: 70%;
+            border: black;
+            cursor: pointer;
+        }
+        #suggestions:hover {
+            transform: scale(1.04);
+            background-position: left;
+            border: 2px solid black;
+        }
+        .sarrow {
+            position: absolute;
+            bottom: 20px;
+            cursor: pointer;
+        }
+        .sarrow svg {
+            width: 34px;
+            height: 34px;
+            fill: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="weather">
+        <div class="weathercontainer">
+            <div class="wsearch">
+                <input id="searchcity" type="text" value="" placeholder="Enter City Name" spellcheck="false" />
+                <button id="wsbutton"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" /></svg></button>
+            </div>
+            <div class="wouput">
+                <span><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M440-760v-160h80v160h-80Zm266 110-55-55 112-115 56 57-113 113Zm54 210v-80h160v80H760ZM440-40v-160h80v160h-80ZM254-652 140-763l57-56 113 113-56 54Zm508 512L651-255l54-54 114 110-57 59ZM40-440v-80h160v80H40Zm157 300-56-57 112-112 29 27 29 28-114 114Zm283-100q-100 0-170-70t-70-170q0-100 70-170t170-70q100 0 170 70t70 170q0 100-70 170t-170 70Zm0-80q66 0 113-47t47-113q0-66-47-113t-113-47q-66 0-113 47t-47 113q0 66 47 113t113 47Zm0-160Z"/></svg></span>
+                <h1 class="wtemp">--°C</h1>
+                <h2 class="wcity">--</h2>
+                <div class="wdetails">
+                    <div class="whumidity">
+                        <span><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M80-240v-80q38 0 56.5-20t77.5-20q59 0 77.5 20t54.5 20q38 0 56.5-20t77.5-20q57 0 77.5 20t56.5 20q38 0 55.5-20t76.5-20q59 0 77.5 20t56.5 20v80q-57 0-77.5-20T746-280q-36 0-54.5 20T614-240q-57 0-77.5-20T480-280q-38 0-56.5 20T346-240q-59 0-76.5-20T214-280q-38 0-56.5 20T80-240Zm0-160v-80q38 0 56.5-20t77.5-20q57 0 76.5 20t55.5 20q38 0 56.5-20t77.5-20q57 0 77 20t55 20q38 0 56.5-20t77.5-20q57 0 77.5 20t56.5 20v80q-59 0-78.5-20T746-440q-36 0-54.5 20T614-400q-57 0-77.5-20T480-440q-38 0-55.5 20T348-400q-59 0-78.5-20T214-440q-36 0-56.5 20T80-400Zm0-160v-80q38 0 56.5-20t77.5-20q57 0 76.5 20t55.5 20q38 0 56.5-20t77.5-20q57 0 77 20t55 20q38 0 56.5-20t77.5-20q57 0 77.5 20t56.5 20v80q-59 0-78.5-20T746-600q-36 0-54.5 20T614-560q-57 0-77.5-20T480-600q-38 0-55.5 20T348-560q-59 0-78.5-20T214-600q-36 0-56.5 20T80-560Z"/></svg></span>
+                        <p class="whcontent">--%</p>
+                        <p class="whctext">Humidity</p>
+                    </div>
+                    <div class="wspeed">
+                        <span><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M460-160q-50 0-85-35t-35-85h80q0 17 11.5 28.5T460-240q17 0 28.5-11.5T500-280q0-17-11.5-28.5T460-320H80v-80h380q50 0 85 35t35 85q0 50-35 85t-85 35ZM80-560v-80h540q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43h-80q0-59 40.5-99.5T620-840q59 0 99.5 40.5T760-700q0 59-40.5 99.5T620-560H80Zm660 320v-80q26 0 43-17t17-43q0-26-17-43t-43-17H80v-80h660q59 0 99.5 40.5T880-380q0 59-40.5 99.5T740-240Z"/></svg></span>
+                        <p class="wscontent">--km/h</p>
+                        <p class="wsctext">Wind Speed</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a id="suggestions">Suggested Outfits For Your Temperature</a>
+        <span class="sarrow"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M480-200 240-440l56-56 184 183 184-183 56 56-240 240Zm0-240L240-680l56-56 184 183 184-183 56 56-240 240Z"/></svg></span>
+    </div>
+    <header>
+        <div class="header">
+            <a class="brand"><h1 class="brandname">Somewhere.</h1></a>
+            
+            <div class="settings">
+                <div class="search">
+                    <input type="search" id="searchinput" placeholder="Search Here" onchange="applySearchFilter(this.value)"/>
+                    <label for="searchinput" onclick="applySearchFilter()" class="searchicon"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" /></svg></label>
+                </div>
+                <a class="carticon">
+                <span class="carttotal">0</span>
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M200-80q-33 0-56.5-23.5T120-160v-480q0-33 23.5-56.5T200-720h80q0-83 58.5-141.5T480-920q83 0 141.5 58.5T680-720h80q33 0 56.5 23.5T840-640v480q0 33-23.5 56.5T760-80H200Zm0-80h560v-480H200v480Zm280-240q83 0 141.5-58.5T680-600h-80q0 50-35 85t-85 35q-50 0-85-35t-35-85h-80q0 83 58.5 141.5T480-400ZM360-720h240q0-50-35-85t-85-35q-50 0-85 35t-35 85ZM200-160v-480 480Z" /></svg></a>
+                <span class="accounticon"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M185-80q-17 0-29.5-12.5T143-122v-105q0-90 56-159t144-88q-40 28-62 70.5T259-312v190q0 11 3 22t10 20h-87Zm147 0q-17 0-29.5-12.5T290-122v-190q0-70 49.5-119T459-480h189q70 0 119 49t49 119v64q0 70-49 119T648-80H332Zm148-484q-66 0-112-46t-46-112q0-66 46-112t112-46q66 0 112 46t46 112q0 66-46 112t-112 46Z" /></svg></span>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="main">
+            <div class="home">
+                <div id="gender">
+                    <a id="All" onclick="applyFilterGender('All')">
+                        <div id="allcontainer">
+                            <h3>All Gender</h3>
+                        </div>
+                    </a>
+                    <a id="male" onclick="applyFilterGender('Male')">
+                        <div id="mencontainer">
+                            <img src="images/71NOH37KqrL._SX569_.jpg" alt="Men" />
+                            <h3>Exclusive for Men</h3>
+                        </div>
+                    </a>
+                    <a id="female" onclick="applyFilterGender('Female')">
+                        <div id="womencontainer">
+                            <img src="images/711LOfMHhRL._SX569_.jpg" alt="Women" />
+                            <h3>Women Collections</h3>
+                        </div>
+                    </a>
+                </div>
+                <div id="sort">
+                    <select id="pricesort" onchange="applyFilter()">
+                        <option value="none">Sort by Price</option>
+                        <option value="low">Low to High</option>
+                        <option value="high">High to Low</option>
+                    </select>
+                    <div class="outputwords">
+                    </div>
+                </div>
+                
+                <div class="homelist" id="homelist"></div>
+            </div>
+            <div class="iproduct">
+            </div>
+            <div class="cart">
+                <ul class="cartitems"></ul>
+                <div class="cartpricetotal"></div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="footer">
+            <p class="footerdetails">&copy; <span>Somewhere</span> fast branding Agencies all rights reserved.</p>
+        </div>
+    </footer>
+    <script>
+        let preventing;
+        let cartlist = [];
+        let products = [
+            {
+                id: 1,
+                name: 'Premium Mens Super Soft T-Shirt',
+                image: ['images/71aFqco50fL._SX569_.jpg', 'images/71NOH37KqrL._SX569_.jpg', 'images/71kgvYBsKUL._SX569_.jpg'],
+                size: ['S', 'M', 'L', 'XL', '2XL'],
+                gender: 'Male',
+                type: 'Tshirt',
+                price: 999,
+                temperature: [25, 45],
+                productdetails: ['100% Cotton', 'Solid'],
+                summary: 'Mercerized finish for super soft hand-feel and luster',
+                description: 'High IQ - Non Fading Colors with a promise of 40-50 washes with Premium quality 100% Cotton fabric Polo Shirt and Superior craftsmanship for that clean finish.'
+            },
+            {
+                id: 2,
+                name: 'Mens Casual Mild Winter Jacket',
+                image: ['images/71l0LixoM3L._SX569_.jpg', 'images/81uQp1zgKJL._SX569_.jpg', 'images/71ndowiXt7L._SX569_.jpg'],
+                size: ['S', 'M', 'L', 'XL', '2XL', '3XL'],
+                gender: 'Male',
+                type: 'Jacket',
+                price: 1999,
+                temperature: [5, 15],
+                productdetails: ['65% Polyster, 30% Viscose', 'Mild-Pattern'],
+                summary: 'Smart Casual Jacket featuring non quilted stretchable lining for ease of movement',
+                description: 'Enjoy effortless comfort all day, with wrinkle-resistant fabric, Premium blended fabric of polyester, viscose, and elastane with High-performance ribbing with elastane for enhanced fit and recovery.'
+            },
+            {
+                id: 3,
+                name: 'Mens Regular Fit Sports T-shirt',
+                image: ['images/71kbjIyaQ8L._SX569_.jpg', 'images/71oS8xVX7AL._SX569_.jpg', 'images/71+51TpfkpL._SX569_.jpg'],
+                size: ['S', 'M', 'L', 'XL', '2XL', '3XL'],
+                gender: 'Male',
+                type: 'Tshirt',
+                price: 698,
+                temperature: [15, 30],
+                productdetails: ['95% Polyester, 5% Elastane', 'Solid'],
+                summary: 'Lightweight premium polyester-spandex blend fabric with 4-way stretch.',
+                description: 'Wicking finish keeps you cool, dry and sweat-free. Structured mesh panel at side seam to enhances breathability during intense workouts and Smooth neckline construction for irritation-free wear.'
+            },
+            {
+                id: 4,
+                name: 'Mens Cotton Casual Shirt',
+                image: ['images/714LaFEi6RL._SX569_.jpg', 'images/81F9v3iIlyL._SX569_.jpg', 'images/71xdVfIl2ZL._SX569_.jpg'],
+                size: ['S', 'M', 'L', 'XL', '2XL'],
+                gender: 'Male',
+                type: 'Shirt',
+                price: 849,
+                temperature: [20, 40],
+                productdetails: ['100% Cotton', 'Solid'],
+                summary: 'Oxford Fabric in Double Ply Premium Cotton.',
+                description: 'Anti-odor Finish for All Day Freshness, Temperature Control Finish (Cool IT TM) to keep you cool Peached finish for a super soft touch Pair up with a Chino or a Jeans for that Smart Casual Look.'
+            },
+            {
+                id: 5,
+                name: 'Womens Smart Casual Cotton Shirt',
+                image: ['images/71CfABRNe1L._SX569_.jpg', 'images/711LOfMHhRL._SX569_.jpg', 'images/71+RbCB22VL._SX569_.jpg'],
+                size: ['S', 'M', 'L', 'XL', '2XL', '3XL'],
+                gender: 'Female',
+                type: 'Shirt',
+                price: 1849,
+                temperature: [30, 45],
+                productdetails: ['100% Cotton', 'Solid'],
+                summary: 'A timeless oversized shirt featuring an open collar and long balloon sleeves.',
+                description: 'A relaxed silhouette with dropped shoulders creates an effortlessly stylish look and Crafted from soft and breathable pure cotton fabric that provides all-day comfort, Discover the perfect fusion of comfort and style in this effortlessly chic wardrobe essential.'
+            },
+            {
+                id: 6,
+                name: 'Womens Solid Formal Shirt',
+                image: ['images/61MiL0PSQiL._SX569_.jpg', 'images/71id9h6UMaL._SX569_.jpg', 'images/71bGCkPrVWL._SX569_.jpg'],
+                size: ['S', 'M', 'L', 'XL', '2XL', '3XL', '4XL'],
+                gender: 'Female',
+                type: 'Shirt',
+                price: 1399,
+                temperature: [20, 28],
+                productdetails: ['100% Polyster', 'Solid'],
+                summary: 'Womens classic shirt tailored in a regular fit.It features long sleeve with buttoned cuff detail.',
+                description: ' Provides a comfortable fit around the body, with ample room in the sleeves and waist to allow easy movement.  Anti-static premium imported Polyester provides exceptional comfort and non-clinging fit. Well-crafted for a clean, minimal finish, offering a refined look. This shirt comes with a matching spaghetti top inside allowing you to wear it confidently in various settings.'
+            },
+            {
+                id: 7,
+                name: 'Womens Solid Formal Shirt (Black)',
+                image: ['images/61ujHMA6B0L._SX569_.jpg', 'images/71yuRkVn7vL._SX569_.jpg', 'images/714u42FtkML._SX569_.jpg'],
+                size: ['S', 'M', 'L', 'XL', '2XL', '3XL', '4XL'],
+                gender: 'Female',
+                type: 'Shirt',
+                price: 1199,
+                temperature: [15, 25],
+                productdetails: ['100% Polyster', 'Solid'],
+                summary: 'Womens classic shirt tailored in a regular fit.It features long sleeve with buttoned cuff detail.',
+                description: ' Provides a comfortable fit around the body, with ample room in the sleeves and waist to allow easy movement.  Anti-static premium imported Polyester provides exceptional comfort and non-clinging fit. Well-crafted for a clean, minimal finish, offering a refined look. This shirt comes with a matching spaghetti top inside allowing you to wear it confidently in various settings.'
+            },
+            {
+                id: 8,
+                name: 'Active Regular Fit Sports T-Shirt',
+                image: ['images/81NEOCFTUwL._SX569_.jpg', 'images/81EVTpLwYbL._SX569_.jpg', 'images/81UA+d64TfL._SX569_.jpg'],
+                size: ['S', 'M', 'L', 'XL', '2XL'],
+                gender: 'Male',
+                type: 'Tshirt',
+                price: 399,
+                temperature: [20, 28],
+                productdetails: ['100% Polyster', 'Pattern'],
+                summary: 'High-performance interlock and mesh fabrics with moisture-wicking for lasting dryness and comfort.',
+                description: 'Regular fit with round neck, short sleeves, contrast panelling and a reflective logo for enhanced visibility during low-light activities. Crafted with high quality stitching with double needle seams for durability and comfort.  Pair with joggers for workout sessions, or style with light jacket for an athleisure look. Please refer to the 5th image in our catalogue for a detailed size and fit guide.'
+            },
+            {
+                id: 9,
+                name: 'Mens Cotton Rich Polo T Shirt',
+                image: ['images/815WjQKfE7L._SX569_.jpg', 'images/71GgHvrbn1L._SX569_.jpg', 'images/81JiIzAOsmL._SX569_.jpg'],
+                size: ['S', 'M', 'L', 'XL', '2XL', '3XL', '4XL'],
+                gender: 'Male',
+                type: 'Tshirt',
+                price: 549,
+                temperature: [15, 28],
+                productdetails: ['60% Polyester, 40% Cotton', 'Solid'],
+                summary: 'Cotton-polyester blend for perfect shape retention and easy maintenance.',
+                description: 'Regular fit, featuring a ribbed knit collar and cuff, 2 -button placket, half sleeves and side slits for movement. Crafted with high quality stitching and full Lycra collar & cuff for added comfort and durability. Pair with chinos and loafers for a smart-casual look or dress down with jeans. Please refer to the 5th image in our catalogue for a detailed size and fit guide.'
+            },
+            {
+                id: 10,
+                name: 'Mens Solid Regular Fit Sports Stretch',
+                image: ['images/71Mg5RH1SfL._SX569_.jpg', 'images/71HoVOAHfdL._SX569_.jpg', 'images/71zz8XcdwxL._SX569_.jpg'],
+                size: ['S', 'M', 'L', 'XL', '2XL', '3XL', '4XL'],
+                gender: 'Male',
+                type: 'Tshirt',
+                price: 599,
+                temperature: [15, 30],
+                productdetails: ['95% Polyester, 5% Elastane', 'Pattern'],
+                summary: 'Lightweight premium polyester-spandex blend fabric with 4-way stretch for unrestricted movement.',
+                description: 'Wicking finish keeps you cool, dry and sweat-free. Designed for unrestricted movement and enhance mobility. Bold contrast panels create a dynamic athletic look. Smooth neckline construction for irritation-free wear. Ideal for sports, training sessions, gym workouts, and active lifestyle routines.'
+            },
+            {
+                id: 11,
+                name: 'Mens Solid Double Pocket Cotton Shirt',
+                image: ['images/71m4tJMh+GL._SX569_.jpg', 'images/81EQeU3Qu1L._SX569_.jpg', 'images/81SWaaBXfUL._SX569_.jpg'],
+                size: ['S', 'M', 'L', 'XL', '2XL', '3XL', '4XL'],
+                gender: 'Male',
+                type: 'Shirt',
+                price: 499,
+                temperature: [15, 30],
+                productdetails: ['Soft and Breathable Cotton Fabric', 'Solid'],
+                summary: 'Garment dyed solid color shirt.',
+                description: 'Double pocket with flap and button closure, Embroidery detail at chest, Pair it up with cargos and layer it over a t-shirt.'
+            },
+            {
+                id: 12,
+                name: 'Womens Cotton Printed Tiered Dress',
+                image: ['images/81Oy9BsLbZL._SX569_.jpg', 'images/81Zi2UPdrML._SX569_.jpg', 'images/91fqlxaZkJL._SX569_.jpg'],
+                size: ['S', 'M', 'L', 'XL', '2XL', '3XL', '4XL'],
+                gender: 'Female',
+                type: 'Kurtis',
+                price: 849,
+                temperature: [15, 30],
+                productdetails: ['100% Cotton', 'Solid'],
+                summary: ' Non-sheer, pure cotton cambric with special softener finish for smooth feel.',
+                description: 'A-line, calf length kurta dress featuring a round neck with tassel tie-up and 3/4th blouson sleeves with cuff. Crafted with high quality stitching for durability and comfort. This product is made in a certified factory that is committed to ethical labour practices. We use FSC certified tags and re-cycled packaging.'
+            },
+            {
+                id: 13,
+                name: 'Myx Womens Printed Loose Cotton Relaxed Fit T- Shirt',
+                image: ['images/81mRcR6OZQL._SX569_.jpg', 'images/81ReEGkmwZL._SX569_.jpg', 'images/91vzEgJTMxL._SX569_.jpg'],
+                size: ['S', 'M', 'L', 'XL'],
+                gender: 'Female',
+                type: 'Tshirt',
+                price: 299,
+                temperature: [25, 45],
+                productdetails: ['95% Cotton, 5% Elastane', 'Pattern'],
+                summary: '97% Cotton And 3% Spandex , 160 Gsm, Single Jersey.',
+                description: 'Printed, Regular Length T-Shirt, Short Sleeve Round Neck Combo Pack Of 2 T-Shirts For Women, Closure Type: Pull On; Fit Type: Loose Fit'
+            },
+            {
+                id: 14,
+                name: 'Womens Super Soft Cotton',
+                image: ['images/61pctUQiMgL._SX569_.jpg', 'images/71yC4hZBftL._SX569_.jpg', 'images/71aVamtWkmL._SX569_.jpg'],
+                size: ['S', 'M', 'L', 'XL', '2XL', '3XL', '4XL'],
+                gender: 'Female',
+                type: 'Tshirt',
+                price: 699,
+                temperature: [30, 40],
+                productdetails: ['100% Cotton', 'Solid'],
+                summary: 'Offers a relaxed and comfortable fit thats larger than your usual size, creating a casual look',
+                description: 'A slightly larger-than-regular-size T-shirt with half sleeves 100% mercerized Cotton, made with high-quality, durable dyes that resist fading over time and Offers mechanical stretch for superior flexibility and comfort all day long with Well-crafted for a clean, minimal finish, featuring a round, ribbed neckline that retains its shape without sagging.'
+            },
+            {
+                id: 15,
+                name: 'Half Sleeve Round Neck Regular Fit T-Shirt',
+                image: ['images/71Svw697LwL._SX569_.jpg', 'images/81Fd2Yzl29L._SX569_.jpg', 'images/716v36VPBAL._SX569_.jpg'],
+                size: ['S', 'M', 'L', 'XL', '2XL', '3XL', '4XL'],
+                gender: 'Female',
+                type: 'Tshirt',
+                price: 299,
+                temperature: [25, 40],
+                productdetails: ['96% Cotton, 4% Elastane', 'Solid'],
+                summary: 'Womens half sleeve regular fit T- shirt.',
+                description: 'Great for layering or wearing alone, this T-shirt features a crewneck, short sleeves, and a Label-free neck for everyday comfort.'
+            },
+        ];
+        let cityname = JSON.parse(localStorage.getItem('cityname')) || 'chennai';
+        console.log(products[0].temperature[0]);
+        //localStorage.setItem('sample', JSON.stringify(products));
+        let home, homelist, iproduct, cart, carttotal, carticon, brand, wtemp, wcity, wspeed, whumidity, searchinput, searchlabel, suggestions, sarrow, view, productId;
+        window.onload = init();
+        //window.addEventListener('popstate', init);
+        function init() {
+            console.log("init called");
+            home = document.querySelector('.home');
+            iproduct = document.querySelector('.iproduct');
+            cart = document.querySelector('.cart');
+            carttotal = document.querySelector('.carttotal');
+            carticon = document.querySelector('.carticon');
+            brand = document.querySelector('.brand');
+            cartlist = JSON.parse(localStorage.getItem('ljcartlist')) || [];
+            wtemp = document.querySelector('.wtemp');
+            wcity = document.querySelector('.wcity');
+            wspeed = document.querySelector('.wscontent');
+            whumidity = document.querySelector('.whcontent');
+            searchinput = document.querySelector('#searchinput');
+            searchlabel = document.querySelector('.search label');
+            suggestions = document.querySelector('#suggestions');
+            sarrow = document.querySelector('.sarrow');
+            params = new URLSearchParams(window.location.search);
+            //console.log(window.location.search);
+            view = params.get("view");
+            productId = params.get("p");
+            //console.log(productId);
+            //console.log(view === "product");
+            if (view === "product" && productId) {
+                singleProduct(productId);
+            }
+            else if (view === "cart") {
+                showCart()
+            }
+            
+            else {
+                homepage(products);
+                callLocation(cityname);
+            }
+            lenghtincart()
+        }
+        window.addEventListener('popstate', function(e) {
+            init();
+        })
+// weather start
+        
+        console.log(cityname);
+        //let cityname = JSON.parse(localStorage.getItem('cityname'));
+        let searchcity = document.querySelector('#searchcity');
+        searchcity.value = cityname;
+        searchcity.addEventListener('keyup', function (e) {
+            if (e.key === 'Enter') {
+                searchcity.blur();
+            }
+        });
+
+        let wsbutton = document.querySelector('#wsbutton');
+        wsbutton.addEventListener('click', function () {
+            searchcity.blur();
+        })
+        searchcity.addEventListener('blur', function () {
+            cityname = searchcity.value.toLowerCase();
+            localStorage.setItem('cityname', JSON.stringify(cityname));
+            console.log(cityname);
+            callLocation(cityname);
+        });
+        let citycoords;
+        async function callLocation(cityname) {
+            try {
+            let getCoords = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${cityname}&count=1&language=en&format=json`);
+            console.log(getCoords);
+            citycoords = await getCoords.json();
+            let citylatitutde = citycoords.results[0].latitude;
+            let citylongitude = citycoords.results[0].longitude;
+            console.log(citylatitutde, citylongitude);
+            callWeather(citylatitutde, citylongitude);
+            }
+            catch (err) {
+                console.error(err);
+                weatherError();
+            }
+        }
+        let weatherDetails;
+        async function callWeather(cltt, clng) {
+            try {
+            let getWeather = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${cltt}&longitude=${clng}&current=temperature_2m,relative_humidity_2m,rain,wind_speed_10m&timezone=auto&forecast_days=1`);
+            console.log(getWeather);
+            weatherDetails = await getWeather.json();
+            console.log(weatherDetails);
+            let wT = weatherDetails.current.temperature_2m;
+            let wS = weatherDetails.current.wind_speed_10m;
+            let wH = weatherDetails.current.relative_humidity_2m;
+            showOutput(wT, wS, wH);
+            }
+            catch (err) {
+                console.error(err);
+            }
+        }
+        function showOutput(wT, wS, wH) {
+            wtemp.innerHTML = `${wT}°C`;
+            wcity.innerHTML = citycoords.results[0].name;
+            wspeed.innerHTML = `${wS}km/h`;
+            whumidity.innerHTML = `${wH}`;
+            searchinput.value = `foryourtemperature:${Math.round(wT)}`;
+            // if (view === "product" && productId) {
+            //     singleProduct(productId);
+            // }
+            // else if (view === "cart") {
+            //     showCart()
+            // }
+            // else {
+            //     applyFilter();
+            // }
+            if (view === "home" || view == null) {
+                applyFilter();
+            }
+            
+        }
+        function weatherError() {
+            wcity.innerHTML = `Write a Correct City Name`;
+            wtemp.innerHTML = `0`;
+            wspeed.innerHTML = `0 km/h`;
+            whumidity.innerHTML = `0`;
+        }
+        
+        suggestions.addEventListener('click', function (e) {
+            //e.preventDefault();
+            setTimeout(() => {
+                let sort1 = document.querySelector('#sort');
+                sort.scrollIntoView();
+            }, 50)
+        });
+        sarrow.addEventListener('click', function (e) {
+            setTimeout(() => {
+                let sort1 = document.querySelector('#sort');
+                sort.scrollIntoView();
+            }, 50)
+        });
+// weather end
+
+        brand.addEventListener('click', function(e) {
+            e.preventDefault();
+            this.href = "Weatherecommerce.html?view=home";
+            history.pushState(null, "", "?view=home");
+            init();
+        })
+
+        function homepage(list) {
+            homelist = document.querySelector('.homelist');
+            homelist.innerHTML = '';
+            home.classList.remove('hidden');
+            iproduct.classList.add('hidden');
+            cart.classList.add('hidden');
+            suggestions.classList.remove('hidden');
+            sarrow.classList.remove('hidden');
+            //history.pushState(null, "", "?view=home");
+            list.forEach(function (p) {
+
+                let div1 = document.createElement('a');
+                //div1.href = "Weatherecommerce.html?view=product&p=" + p.id;
+                div1.className = 'product';
+                div1.id = `${p.id}`;
+                div1.innerHTML = `<div class="container">
+                <div class="imagecontainer">
+                <img src="${p.image[0]}" alt="${p.name}" />
+                </div>
+                <div class="detailscontainer">
+                <div class="span">
+                <span class="producttype">${p.type}</span>
+                <span class="productgender">${p.gender}</span>
+                </div>
+                <h3 class="productname">${p.name}<h3>
+                <h4 class="productprice">Rs. ${p.price}</h4>
+                </div>
+                </div>`
+                //div1.onclick = function () {
+                //    singleProduct(p.id)
+                //    //console.log(p.id);
+                //}
+                homelist.appendChild(div1);
+            });
+            preventing = homelist.querySelectorAll('.product');
+            preventing.forEach(pa => {
+                pa.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    //console.log(e);
+                    //console.log(this.id);
+                    this.href = "Weatherecommerce.html?view=product&p=" + this.id;
+                    history.pushState(null, "",this.getAttribute('href'));
+                    init();
+                });
+            })
+        }
+        function singleProduct(id) {
+            //window.scrollTo({top: 0, behavior: "smooth"});
+            setTimeout(() => {
+                let header = document.querySelector('header');
+                header.scrollIntoView();
+            }, 50)
+            home.classList.add('hidden');
+            iproduct.classList.remove('hidden');
+            cart.classList.add('hidden');
+            suggestions.classList.add('hidden');
+            sarrow.classList.add('hidden');
+            let oneproduct = products.find(ap => ap.id == id);
+            //history.pushState(null, "", "?view=product&p=" + id);
+            //console.log('singleproductrunnging' + id);
+            
+            iproduct.innerHTML = "";
+            
+            iproduct.innerHTML = `<div class="div2">
+            <div class="ileftimage">
+            <div class="ismallimagecontainer">
+            <img class="simg" src="${oneproduct.image[0]}" />
+            <img class="simg" src="${oneproduct.image[1]}" />
+            <img class="simg" src="${oneproduct.image[2]}" />
+            </div>
+            <div class="iimagecontainer">
+            <img class="fimg" src="${oneproduct.image[0]}" />
+            </div>
+            </div>
+            <div class="irightdetails">
+            <h3 class="itype">${oneproduct.type}</h3>
+            <h1 class="iname">${oneproduct.name}</h1>
+            <span class="iproductdetails">
+            <span>Material: ${oneproduct.productdetails[0]}</span> 
+            <span>Style: ${oneproduct.productdetails[1]}</span>
+            </span>
+            <h3 class="igender">${oneproduct.gender} exclusive</h3>
+            <h3 class="iprice">Rs. ${oneproduct.price}</h3>
+            <p class="iwords">Smart Choice Size: </p>
+            <select class="isize">
+            
+            ${oneproduct.size.map(function (s) {
+                return `<option value="${s}">${s}</option>`
+            }).join("")
+            }
+            </select>
+            <button id="ibutton" onclick="addToCart(${oneproduct.id})">Add To Cart</button>
+            <div class="idelivery">
+                 <span><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M280-160q-50 0-85-35t-35-85H60l18-80h113q17-19 40-29.5t49-10.5q26 0 49 10.5t40 29.5h167l84-360H262l17-80h441l-37 160h117l120 160-40 200h-80q0 50-35 85t-85 35q-50 0-85-35t-35-85H400q0 50-35 85t-85 35Zm357-280h193l4-21-74-99h-95l-28 120Zm-17-280-84 360 2-7 82-353ZM140-440v-120H40l140-200v120h100L140-440Zm140 200q17 0 28.5-11.5T320-280q0-17-11.5-28.5T280-320q-17 0-28.5 11.5T240-280q0 17 11.5 28.5T280-240Zm400 0q17 0 28.5-11.5T720-280q0-17-11.5-28.5T680-320q-17 0-28.5 11.5T640-280q0 17 11.5 28.5T680-240Z"/></svg><br />Free Delivery</span>
+                 <span><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M640-440 474-602q-31-30-52.5-66.5T400-748q0-55 38.5-93.5T532-880q32 0 60 13.5t48 36.5q20-23 48-36.5t60-13.5q55 0 93.5 38.5T880-748q0 43-21 79.5T807-602L640-440Zm0-112 109-107q19-19 35-40.5t16-48.5q0-22-15-37t-37-15q-14 0-26.5 5.5T700-778l-60 72-60-72q-9-11-21.5-16.5T532-800q-22 0-37 15t-15 37q0 27 16 48.5t35 40.5l109 107ZM280-220l278 76 238-74q-5-9-14.5-15.5T760-240H558q-27 0-43-2t-33-8l-93-31 22-78 81 27q17 5 40 8t68 4q0-11-6.5-21T578-354l-234-86h-64v220ZM40-80v-440h304q7 0 14 1.5t13 3.5l235 87q33 12 53.5 42t20.5 66h80q50 0 85 33t35 87v40L560-60l-280-78v58H40Zm80-80h80v-280h-80v280Zm520-546Z"/></svg><br />Pay on Delivery</span>
+                 <span><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M480-80q-75 0-140.5-28.5t-114-77q-48.5-48.5-77-114T120-440h80q0 117 81.5 198.5T480-160q117 0 198.5-81.5T760-440q0-117-81.5-198.5T480-720h-6l62 62-56 58-160-160 160-160 56 58-62 62h6q75 0 140.5 28.5t114 77q48.5 48.5 77 114T840-440q0 75-28.5 140.5t-77 114q-48.5 48.5-114 77T480-80ZM360-320v-180h-60v-60h120v240h-60Zm140 0q-17 0-28.5-11.5T460-360v-160q0-17 11.5-28.5T500-560h80q17 0 28.5 11.5T620-520v160q0 17-11.5 28.5T580-320h-80Zm20-60h40v-120h-40v120Z"/></svg><br />10 Days Return</span>
+                 </div>
+            <details class="idetails">
+            <summary>${oneproduct.summary}</summary>
+            <p>${oneproduct.description}</p>
+            </details>
+            
+            </div>
+            </div>
+            `
+            
+            let imgselect = document.querySelectorAll('.simg');
+            imgselect.forEach(function (is) {
+                is.addEventListener('click', function (pd) {
+                    let simage = document.querySelector('.fimg');
+                    simage.src = is.src;
+                })
+            })
+        };
+
+        searchinput.addEventListener('keydown', function (event) {
+            if (event.key == 'Enter') {
+                event.preventDefault();
+                console.log('enter clicked')
+                searchinput.blur();
+            }
+        })
+        
+
+        let currentGender = 'All';
+        function applyFilterGender(gender) {
+            console.log(gender);
+            currentGender = gender;
+            applyFilter()
+        }
+        let All = document.querySelector('#All');
+        All.addEventListener('click', function () {
+            setTimeout(() => {
+                let sort1 = document.querySelector('#sort');
+                sort.scrollIntoView();
+            }, 50)
+        })
+        function applySearchFilter(v1) {
+            console.log(v1);
+            let searchinput = document.querySelector('#searchinput').value
+            if (searchinput !== "" && searchinput !== undefined) {
+                console.log('1st running');
+                applyFilter()
+                setTimeout(() => {
+                    let sort1 = document.querySelector('#sort');
+                    sort.scrollIntoView();
+                }, 50)
+            }
+            else if (searchinput === "" || searchinput === undefined) {
+                console.log('2nd running');
+                applyFilter()
+            }
+        }
+        function applyFilter() {
+            console.log('filter clicked')
+            let filtered = [...products];
+            let searchinput = document.querySelector('#searchinput').value.toLowerCase();
+            let outputwords = document.querySelector('.outputwords');
+            console.log(searchinput);
+            outputwords.innerHTML = "";
+            outputwords.innerHTML = `Search Results "${searchinput}"`
+            if (searchinput == "") {
+                outputwords.innerHTML = "";
+            }
+            if(searchinput.includes('foryourtemperature:')) {
+                console.log(parseInt(searchinput.replace("foryourtemperature:", "").trim()))
+                function getTemp(arr) {
+                    let resultTemp = [];
+                    for(let i = arr[0]; i <= arr[1]; i++) {
+                    resultTemp.push(i)
+                    }
+                    return resultTemp;
+                }
+                filtered = filtered.filter(p =>
+                    getTemp(p.temperature).includes(parseInt(searchinput.replace("foryourtemperature:", "").trim()))
+                    //p.temperature.includes(parseInt(searchinput.replace("foryourtemperature:", "").trim()))
+                )
+            }
+            else {
+                console.log('else called')
+                filtered = filtered.filter(p =>
+                p.name.toLowerCase().includes(searchinput) ||
+                p.description.toLowerCase().includes(searchinput) ||
+                p.summary.toLowerCase().includes(searchinput) ||
+                p.productdetails[0].toLowerCase().includes(searchinput) ||
+                p.productdetails[1].toLowerCase().includes(searchinput) ||
+                p.gender.toLowerCase().includes(searchinput) ||
+                p.type.toLowerCase().includes(searchinput)
+
+            );
+            }
+            
+
+
+            let pricesort = document.querySelector('#pricesort').value;
+            console.log(currentGender);
+            
+            if (currentGender !== 'All') {
+                filtered = filtered.filter(
+                    p => p.gender === currentGender);
+                setTimeout(() => {
+                    let sort1 = document.querySelector('#sort');
+                    sort.scrollIntoView();
+                }, 50)
+            };
+
+
+            if (pricesort === 'low') {
+                filtered.sort((a, b) => a.price - b.price);
+            }
+            else if (pricesort === 'high') {
+                filtered.sort((a, b) => b.price - a.price);
+            }
+            homepage(filtered);
+            
+            
+            
+        };
+
+        let quantity;
+        function addToCart(id) {
+            let size = document.querySelector('.isize').value;
+            quantity = 1;
+            console.log(size);
+            let addingproduct = products.find(p => p.id === id);
+            console.log(addingproduct);
+            let exist = cartlist.find(c => c.id === id && c.size === size);
+            if (!exist) {
+                cartlist.push({ ...addingproduct, size, quantity })
+                }
+            
+            console.log(cartlist.length);
+            localStorage.setItem('ljcartlist', JSON.stringify(cartlist));
+            lenghtincart()
+            
+
+        }
+        carticon.addEventListener('click', function(e) {
+            e.preventDefault();
+            this.href = "Weatherecommerce.html?view=cart";
+            history.pushState(null, "", "?view=cart");
+            init();
+        })
+        function showCart() {
+            home.classList.add('hidden');
+            iproduct.classList.add('hidden');
+            cart.classList.remove('hidden');
+            suggestions.classList.add('hidden');
+            sarrow.classList.add('hidden');
+            setTimeout(() => {
+                let header = document.querySelector('header');
+                header.scrollIntoView();
+            }, 50)
+            //window.scrollTo({top: 0, behavior: "smooth"});
+            //history.pushState(null, "", "?view=cart");
+            let cartitems = document.querySelector('.cartitems')
+            cartitems.innerHTML = '';
+            if (cartlist.length === 0) {
+                let cartpricetotal = document.querySelector('.cartpricetotal');
+                cartpricetotal.innerHTML = `<h2 class="emptycart">Your Cart is Empty</h2>`
+            }
+            else {
+                let totalprice = 0;
+                cartlist.forEach(function (cl, index) {
+                    let div3 = document.createElement('li');
+                    div3.className = 'div3';
+                    div3.innerHTML = `
+                    <div class="hidden clid">${cl.id}</div>
+                    <div class="cindex">${index + 1}</div>
+                    <div class="cimage"><img src="${cl.image[0]}" alt="${cl.name}" /></div>
+                    <div class="cname"><h3>${cl.name}</h3></div>
+                    <div class="csize"><h4>${cl.size}</h4></div>
+                    <div class="cquantity"><input class="cinput" type="number" min="1" max="100" value="${cl.quantity}" /></div>
+                    <div class="cprice"><h4 class="cfullprice">${cl.quantity*cl.price}</h4></div>
+                    <div class="removebtn"><button onclick="removeFromCart(${index})" class="cbutton">Remove Item</button></div>
+                    </div>
+                    `
+                    let cinputquantity = div3.querySelector('.cinput');
+                    let timer;
+                    cinputquantity.addEventListener('blur', function () {
+                        //clearTimeout(timer);
+                        //timer = setTimeout(() => { 
+                            if (cinputquantity.value === null) {
+                                return cinputquantity.value = 1;
+                                //updatePrice()
+                            } 
+                            else if (cinputquantity.value <= 0) {
+                                return cinputquantity.value = 1;
+                                //updatePrice()
+                            }
+                            else if (cinputquantity.value > 100) {
+                                return cinputquantity.value = 100;
+                                //updatePrice()
+                            }
+                            
+                        //}, 1500);
+                        
+                    });
+                    let cinputquantityfinal = cinputquantity.value;
+                    console.log(cinputquantityfinal)
+                    let cfullprice = div3.querySelector('.cfullprice');
+                    let cinputquantity1 = div3.querySelector('.cinput');
+                    let clid = div3.querySelector('.clid');
+                    let csize1 = div3.querySelector('.csize h4');
+                    cinputquantity1.addEventListener('blur', function updatePrice() {
+                        const cq = cinputquantity1.value;
+                        console.log(cq);
+                        const subtotal = cl.price * cq;
+                        cfullprice.textContent = `${subtotal}`
+                        totalprice += parseInt(`${subtotal}`);
+                        //console.log(totalprice);
+                        calculateTotal()
+                        cartlist.forEach(cl1 => {
+                            if (cl1.id == clid.textContent && cl1.size == csize1.textContent) {
+                                cl1.quantity = cq;
+                                localStorage.setItem('ljcartlist', JSON.stringify(cartlist));
+                            }
+                        })
+                    });
+                    cartitems.appendChild(div3);
+                });
+                calculateTotal()
+            }
+
+        }
+        function calculateTotal() {
+            let totalprice = 0;
+            let allitems = document.querySelectorAll('.div3');
+            allitems.forEach(item => {
+                let price = parseInt(item.querySelector('.cfullprice').textContent);
+                totalprice += price;
+            });
+            if (totalprice !== 0) {
+                let cartpricetotal = document.querySelector('.cartpricetotal');
+                cartpricetotal.innerHTML = `
+                <h3>Your Total Amount is: Rs.${totalprice}</h3>
+                <div href="">Proceed To CheckOut</div>
+                `;
+            }
+        }
+        function removeFromCart(i) {
+            cartlist.splice(i, 1);
+            localStorage.setItem('ljcartlist', JSON.stringify(cartlist));
+            showCart();
+            lenghtincart()
+
+        }
+        function lenghtincart() {
+                carttotal.textContent = cartlist.length;
+        }
+
+
+        
+    </script>
+</body>
+</html>
