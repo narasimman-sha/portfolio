@@ -1526,7 +1526,7 @@
 
         brand.addEventListener('click', function(e) {
             e.preventDefault();
-            this.href = "Weatherecommerce.html?view=home";
+            this.href = "index.html?view=home";
             history.pushState(null, "", "?view=home");
             init();
         })
@@ -1543,7 +1543,7 @@
             list.forEach(function (p) {
 
                 let div1 = document.createElement('a');
-                //div1.href = "Weatherecommerce.html?view=product&p=" + p.id;
+                //div1.href = "index.html?view=product&p=" + p.id;
                 div1.className = 'product';
                 div1.id = `${p.id}`;
                 div1.innerHTML = `<div class="container">
@@ -1571,7 +1571,7 @@
                     e.preventDefault();
                     //console.log(e);
                     //console.log(this.id);
-                    this.href = "Weatherecommerce.html?view=product&p=" + this.id;
+                    this.href = "index.html?view=product&p=" + this.id;
                     history.pushState(null, "",this.getAttribute('href'));
                     init();
                 });
@@ -1770,7 +1770,7 @@
         }
         carticon.addEventListener('click', function(e) {
             e.preventDefault();
-            this.href = "Weatherecommerce.html?view=cart";
+            this.href = "index.html?view=cart";
             history.pushState(null, "", "?view=cart");
             init();
         })
@@ -1887,3 +1887,4 @@
     </script>
 </body>
 </html>
+
